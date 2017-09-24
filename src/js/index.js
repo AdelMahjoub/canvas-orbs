@@ -76,7 +76,9 @@ window.addEventListener('DOMContentLoaded', function() {
   })
 
   move.addListener('mouseup', () => {
-
+    board.canvas.style.cursor = 'default';
+    board.canvas.removeEventListener('mousemove', moveOrb);
+    
     if(orb.x > (startX + ~~(board.tileWidth / 3))) {
       targetX = orb.boardX + 1
     } else if(orb.x < (startX - ~~(board.tileWidth / 3))) {
@@ -116,9 +118,6 @@ window.addEventListener('DOMContentLoaded', function() {
     board.stageCodes[targetX][targetY] = from.code;
     board.stageOrbs[orb.boardX][orb.boardY] = Object.assign({}, to);
     board.stageCodes[orb.boardX][orb.boardY] = to.code;
-
-    board.canvas.style.cursor = 'default';
-    board.canvas.removeEventListener('mousemove', moveOrb);
   });
 
 });
