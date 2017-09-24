@@ -75,8 +75,16 @@ class Board {
   initStage() {
     for(let x = 0; x < this.columns; x++) {
       this.stageCodes[x] = [];
+      this.stageOrbs[x] = [];
       for(let y = 0; y < this.rows; y++) {
         this.stageCodes[x][y] = ~~(Math.random() * this.orbs.length);
+        let code = this.stageCodes[x][y];
+        this.stageOrbs[x][y] = Object.assign({}, this.orbs.filter(orb => orb.code === code)[0]);
+        let orb = this.stageOrbs[x][y];
+        orb.boardX = x;
+        orb.boardY = y;
+        orb.x = x * orb.width;
+        orb.y = y * orb.height;
       }
     }
   }
@@ -88,15 +96,8 @@ class Board {
   renderStage(image) {
     this.ctx.clearRect(0, 0, this.width, this.height);
     for(let x = 0; x < this.columns; x++) {
-      this.stageOrbs[x] = [];
       for(let y = 0; y < this.rows; y++) {
-        let code = this.stageCodes[x][y];
-        this.stageOrbs[x][y] = Object.assign({}, this.orbs.filter(orb => orb.code === code)[0]);
         let orb = this.stageOrbs[x][y];
-        orb.boardX = x;
-        orb.boardY = y;
-        orb.x = x * orb.width;
-        orb.y = y * orb.height;
         this.ctx.drawImage(
           image,
           orb.srcX,
@@ -110,7 +111,9 @@ class Board {
         )
       }
     }
-    this.renderGrid();
+    requestAnimationFrame(() => {
+      this.renderStage(image)
+    })
   }
 }
 
