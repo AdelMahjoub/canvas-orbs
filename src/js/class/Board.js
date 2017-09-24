@@ -89,10 +89,7 @@ class Board {
     }
   }
 
-  /**
-   * Draw the orb that correspond to the code in the stageCodes array
-   * Push the matching orb into the stageOrbs array
-   */
+ 
   renderStage(image) {
     this.ctx.clearRect(0, 0, this.width, this.height);
     for(let x = 0; x < this.columns; x++) {
